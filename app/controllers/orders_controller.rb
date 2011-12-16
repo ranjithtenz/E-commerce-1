@@ -71,6 +71,7 @@ class OrdersController < ApplicationController
 
   def destroy
     @order = Order.find(params[:id])
+    Notifier.order_deleted(@order).deliver
     @order.destroy
 
     respond_to do |format|

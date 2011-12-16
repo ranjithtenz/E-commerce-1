@@ -18,4 +18,10 @@ class Notifier < ActionMailer::Base
     mail :to => "said.kaldybaev@gmail.com", :subject => "Store app error incident"
   end
 
+  def order_deleted(order)
+    @order = order
+    mail :to => order.email, :subject => "Your order deleted from our service."
+  end
+
+
 end
