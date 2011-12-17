@@ -9,7 +9,12 @@
 <body id="store">
 <div id="banner">
   <%= image_tag("logo.png") %>
-  <%= @page_title || "Pragmatic Bookshelf" %>
+  <%= form_tag store_path, :class => "locale" do %>
+    <%= select_tag 'set_locale', options_for_select(LANGUAGES, I18n.locale.to_s), :onchange => 'this.form.submit()' %>
+    <%= submit_tag 'submit' %>
+    <%= javascript_tag "$$('.locale input').each(Element.hide)" %>
+  <% end %>
+  <%= @page_title || t('.title') %>
 </div>
 <div id="columns">
 
@@ -21,10 +26,19 @@
         <% end %>
     <% end %>
 
-    <a href="http://namba.kg">Home</a><br/>
-    <a href="http://mail.ru">Questions</a><br/>
-    <a href="http://new.ru">News</a><br/>
-    <a href="http://torrents.kg">Contact</a><br/>
+    <a href="http://namba.kg"><%= t('.home') %></a><br/>
+    <a href="http://mail.ru"><%= t('.questions') %></a><br/>
+    <a href="http://new.ru"><%= t('.news') %></a><br/>
+    <a href="http://torrents.kg"><%= t('contact') %></a><br/>
+
+    <% if session[:user_id] %>
+        <br />
+        <%= link_to 'Orders',   orders_path   %><br />
+        <%= link_to 'Products', products_path %><br />
+        <%= link_to 'Users',    users_path    %><br />
+        <br />
+        <%= button_to 'Logout', logout_path, :method => :delete %>
+    <% end %>
 
   </div>
 
